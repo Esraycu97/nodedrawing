@@ -14,5 +14,12 @@
   "dependencies": {
     "express": "^4.15.3",
     "socket.io": "^2.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvoFacundo/nodedrawing.git"
+  },
+"bugs": {
+    "url": "https://github.com/IvoFacundo/nodedrawing/issues"
   }
 }
