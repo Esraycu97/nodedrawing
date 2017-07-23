@@ -1,6 +1,15 @@
 # NodeDrawing
 A Multiplayer Real-Time drawing, using materializecss and angularJS in front-end and NodeJS in back-end.
 
+## Features of Application
+
+* Name prompt and unique ID auto generated por each user
+* Cursors for each user in the app
+* Name aside of each cursor of the user.
+* 5 color to change (Yellow,Blue,Green,Black,Red)
+* 3 Thicks to change 
+
+
 ## Installation of Application
 
 * Install Node.js from [nodejs.org](https://nodejs.org/en/download/)
