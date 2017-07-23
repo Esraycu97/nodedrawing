@@ -38,7 +38,7 @@ $ npm install socket.io --save
 * Materializecss framework [http://materializecss.com](materializecss.com)
 
 ## Client(HTML)
-* Create a file in project directory /index.html
+* Create a file in project directory public/index.html
 * Adding all the scripts and frameworks in the file.
 
 ```html
