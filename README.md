@@ -30,8 +30,8 @@ $ npm install socket.io --save
 
 ## Frameworks in front-end
 
-* JQuery from [jquery.org](https://code.jquery.com/), version in proyect 3.2.1
-* AngularJS from [angularjs.org](https://angularjs.org/), version in proyect 1.6.4
+* JQuery from [jquery.org](https://code.jquery.com/), version in project 3.2.1
+* AngularJS from [angularjs.org](https://angularjs.org/), version in project 1.6.4
 * Angular dependencies ngRoute and ngResource and ui.materialize (MaterializeCSS to angularJS)
   * Angular-materialize see the source code here [https://krescruz.github.io/angular-materialize](https://krescruz.github.io/angular-materialize)
   * ngRoutse and ngResource getist from offical directory of angularJS [https://code.angularjs.org/1.6.4/](https://code.angularjs.org/1.6.4/) 
