@@ -8,11 +8,13 @@ A Multiplayer Real-Time drawing, using materializecss and angularJS in front-end
 * Username aside of each cursor.
 * 5 color to change (Yellow,Blue,Green,Black,Red).
 * 3 Thicks to change.
+* AFK Kick user cursor
+* Export the canvas to image (Download button)
 
 
 ## Installation of Application
 
-* Install Node.js from [nodejs.org](https://nodejs.org/en/download/)
+* Install NodeJS from [nodejs.org](https://nodejs.org/en/download/)
 
 * Open you terminal and navigate into application directory
 

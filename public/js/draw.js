@@ -1,1 +1,205 @@
-$(function(){function t(){var t={};return o.width()>=1024?(r=o.width()-$(".side-nav").width(),t.width=$(".side-nav").width(),t.height=0):(h=o.height()-Math.round($(".nav-bar").height()),t.width=0,t.height=Math.round($(".nav-bar").height())),t}function e(t,e,i,o,n,r){a.beginPath(),a.strokeStyle=p,a.lineWidth=r,a.moveTo(t,e),a.lineTo(i,o),a.stroke(),a.closePath()}function i(){var t=n[0].toDataURL("image/png;base64;");return t=t.replace(/^data:image\/[^;]*/,"data:application/octet-stream"),name_img=prompt("Give a name to your image",""),name_img.length>0?(this.setAttribute("download",name_img+".jpeg"),void(this.href=t)):!1}var o=$(window),n=$("#canvas"),a=n[0].getContext("2d"),r=o.width(),h=o.height();n.attr("width",r),n.attr("height",h),a.fillStyle="#FFFFFF",a.fillRect(0,0,r,h);var s=prompt("What's your name?",""),c=io(),d=$("#block"),p="black",l=1,u=Math.round($.now()*Math.random()),w={},v=1e4,g={},m={click:!1,draw:!1,pos:{},pos_prev:{}},f=t();$("#color-ul li a").on("click",function(){p=$(this).attr("data-color")}),$("#demoDropdown li a").on("click",function(){$(this).sideNav("hide"),l=$(this).attr("data-thick")}),o.on("resize",function(e){r=$(this).width(),h=$(this).height(),f=t()}),n.on("mousedown",function(t){m.draw=!0,m.pos_prev.x=t.clientX-f.width,m.pos_prev.y=t.clientY-f.heigth,d.fadeOut()}),n.on("mouseup",function(t){m.draw=!1}),n.on("mousemove",function(t){m.pos.x=(t.clientX-f.width)/r,m.pos.y=(t.clientY-f.height)/h,c.emit("drawing",{pos:m.pos,draw:m.draw,id:u,color:p,thickness:l,username:s}),m.draw&&(e(m.pos_prev.x,m.pos_prev.y,t.clientX-f.width,t.clientY-f.height,p,l),m.pos_prev.x=t.clientX-f.width,m.pos_prev.y=t.clientY-f.height)}),n.on("touchstart",function(t){var e=t.originalEvent.touches[0]||t.originalEvent.changedTouches[0];m.draw=!0,m.pos_prev.x=e.clientX-f.width,m.pos_prev.y=e.clientY-f.heght}),n.on("touchmove",function(t){var i=t.originalEvent.touches[0]||t.originalEvent.changedTouches[0];m.pos.x=(i.clientX-f.width)/r,m.pos.y=(i.clientY-f.height)/h,c.emit("drawing",{pos:m.pos,draw:m.draw,id:u,color:p,thickness:l,username:s}),m.draw&&(e(m.pos_prev.x,m.pos_prev.y,i.clientX-f.width,i.clientY-f.height,p,l),m.pos_prev.x=i.clientX-f.width,m.pos_prev.y=i.clientY-f.height)}),n.on("touchend touchleave touchcancel",function(t){m.draw=!1}),setInterval(function(){for(afk in w)$.now()-w[afk].now>v&&(g[afk].remove(),delete w[afk],delete g[afk])},v),$("#dlCanvas").on("click",i),c.on("drawing",function(t){t.id in w||(g[t.id]=$('<div class="cursor">').appendTo("#cursors").append('<div class="username-cursor">'+t.username)),g[t.id].css({left:t.pos.x*r,top:t.pos.y*h}),t.draw&&w[t.id]&&e(w[t.id].pos.x*r,w[t.id].pos.y*h,t.pos.x*r,t.pos.y*h,t.color,t.thickness),w[t.id]=t,w[t.id].now=$.now()})});
+$(function(){
+
+    //dom objects
+    var win = $(window);
+
+    //initialize canvas
+    var canvas = $('#canvas');
+    var ctx = canvas[0].getContext('2d');
+    var width = win.width();
+    var height = win.height();
+    canvas.attr('width',width);
+    canvas.attr('height',height);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0,0,width,height);
+
+    //vars in the app
+    var name = prompt('What\'s your name?','');
+    var socket = io();
+    var block = $('#block');
+    var color = 'black';
+    var thickness = 1;
+    var id = Math.round($.now()*Math.random()); // Generate an unique ID
+    var users = {};
+    var afk_time = 10000; // time in seconds to remove afk users
+    var cursors = {};
+    var mouse = {
+    	click : false,
+    	draw : false,
+    	pos : {},
+    	pos_prev : {}
+    }
+
+    var sideSize = navResize();
+    $('#color-ul li a').on('click',function(){
+        color = $(this).attr('data-color');
+    });
+    $('#demoDropdown li a').on('click',function(){
+        $(this).sideNav('hide');
+        thickness = $(this).attr('data-thick');
+    });
+
+    function navResize(){
+        var elSize = {};
+        if(win.width() >= 1024){
+            width = win.width() - $('.side-nav').width();
+            elSize.width = $('.side-nav').width();
+            elSize.height = 0;
+        } else {
+            height = win.height() - Math.round($('.nav-bar').height());
+            elSize.width = 0;
+            elSize.height = Math.round($('.nav-bar').height());
+        }
+        return elSize;
+    }
+
+    function draw(mx, my, lx, ly,c,t){
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = t;
+        ctx.moveTo(mx, my);
+        ctx.lineTo(lx, ly);
+        ctx.stroke();
+        ctx.closePath();
+    }
+    
+    //event resize
+    win.on('resize',function(e){
+        width = $(this).width();
+        height = $(this).height();
+        sideSize = navResize();
+    });
+
+    //mouse events
+    canvas.on('mousedown' , function (e){
+        mouse.draw = true;
+        mouse.pos_prev.x = e.clientX - sideSize.width;
+        mouse.pos_prev.y = e.clientY - sideSize.heigth;
+
+        // Hide the instructions
+        block.fadeOut();
+    });
+
+    canvas.on('mouseup', function(e){ mouse.draw = false; });
+
+    canvas.on('mousemove', function(e){
+        mouse.pos.x = (e.clientX - sideSize.width) / width;
+        mouse.pos.y = (e.clientY - sideSize.height) / height;
+        socket.emit('drawing',{
+            pos : mouse.pos,
+            draw: mouse.draw,
+            id: id,
+            color : color,
+            thickness : thickness,
+            username : name
+        });
+
+        // Draw a line for the current user's movement, as it is
+        // not received in the socket.on('moving') event above
+
+        if(mouse.draw){
+            draw(mouse.pos_prev.x, mouse.pos_prev.y, e.clientX - sideSize.width, e.clientY - sideSize.height,color,thickness);
+            mouse.pos_prev.x = e.clientX - sideSize.width;
+            mouse.pos_prev.y = e.clientY - sideSize.height;
+        }
+    });
+
+    // touch events
+    canvas.on('touchstart', function(e) {
+        var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        mouse.draw = true;
+        mouse.pos_prev.x = touch.clientX - sideSize.width;
+        mouse.pos_prev.y = touch.clientY - sideSize.heght;
+    });
+
+    // On touch move
+    canvas.on('touchmove', function(e) {
+        var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        mouse.pos.x = (touch.clientX - sideSize.width) / width;
+        mouse.pos.y = (touch.clientY - sideSize.height) / height;
+        socket.emit('drawing',{
+            pos : mouse.pos,
+            draw: mouse.draw,
+            id: id,
+            color : color,
+            thickness : thickness,
+            username : name
+        });
+
+        // Draw a line for the current user's movement, as it is
+        // not received in the socket.on('moving') event above
+
+        if(mouse.draw){
+            draw(mouse.pos_prev.x, mouse.pos_prev.y, touch.clientX - sideSize.width, touch.clientY - sideSize.height,color,thickness);
+            mouse.pos_prev.x = touch.clientX - sideSize.width;
+            mouse.pos_prev.y = touch.clientY - sideSize.height;
+        }
+    });
+
+    canvas.on('touchend touchleave touchcancel', function(e) {
+        mouse.draw = false;
+    });
+
+    // Remove inactive users after 10sec
+    setInterval(function(){
+
+        for(afk in users){
+            if($.now() - users[afk].now > afk_time){
+                // remove a user from app 10sec default
+                cursors[afk].remove();
+                delete users[afk];
+                delete cursors[afk];
+            }
+        }
+
+    },afk_time);
+
+    function downloadCanvas() {
+        var downTo = canvas[0].toDataURL('image/png;base64;');
+
+        // force to download 
+        downTo = downTo.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+        
+        name_img = prompt("Give a name to your image","");
+
+        if(name_img.length > 0){
+            this.setAttribute("download", name_img+'.jpeg');
+            this.href = downTo;
+        } else {
+            return false;
+        }
+    };
+
+    $('#dlCanvas').on('click',downloadCanvas);
+
+    socket.on('drawing', function (data) {
+
+        if(! (data.id in users)){
+            // a new user has come online. create a cursor for them
+            cursors[data.id] = $('<div class="cursor">').appendTo('#cursors').append('<div class="username-cursor">'+data.username);
+        }
+
+        // Move the mouse pointer the -3 is a bug 
+        cursors[data.id].css({
+            'left' : data.pos.x*width,
+            'top' : data.pos.y*height
+        });
+
+        // Is the user drawing?
+        if(data.draw && users[data.id]){
+
+            // Draw a line on the canvas. users[data.id] holds
+            // the previous position of this user's mouse pointer
+
+            draw(users[data.id].pos.x*width, users[data.id].pos.y*height, data.pos.x*width, data.pos.y*height,data.color,data.thickness);
+        }
+
+        // Saving the current client state
+        users[data.id] = data;
+        users[data.id].now = $.now()
+
+    });
+
+    
+});
+

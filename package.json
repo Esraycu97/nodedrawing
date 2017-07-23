@@ -1,11 +1,8 @@
 {
   "name": "node-drawing",
   "version": "0.1.0",
-  "description": "a cooperative drawing using node and sockets",
+  "description": "A Multiplayer Real-Time drawing, using materializecss and angularJS in front-end and NodeJS in back-end.",
   "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "node"
   ],
@@ -17,9 +14,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IvoFacundo/nodedrawing.git"
+    "url": "git+https://github.com/IvoFacundo/nodedrawing-ifc.git"
   },
 "bugs": {
-    "url": "https://github.com/IvoFacundo/nodedrawing/issues"
+    "url": "https://github.com/IvoFacundo/nodedrawing-ifc/issues"
   }
 }
