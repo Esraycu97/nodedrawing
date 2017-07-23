@@ -3,11 +3,11 @@ A Multiplayer Real-Time drawing, using materializecss and angularJS in front-end
 
 ## Features of Application
 
-* Name prompt and unique ID auto generated por each user
-* Cursors for each user in the app
-* Name aside of each cursor of the user.
-* 5 color to change (Yellow,Blue,Green,Black,Red)
-* 3 Thicks to change 
+* Username prompt and unique ID auto generated por each user
+* Cursors for each user in the app.
+* Username aside of each cursor.
+* 5 color to change (Yellow,Blue,Green,Black,Red).
+* 3 Thicks to change.
 
 
 ## Installation of Application
