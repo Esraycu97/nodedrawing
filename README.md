@@ -10,6 +10,7 @@ A Multiplayer Real-Time drawing, using materializecss and angularJS in front-end
 * Create package.json
 
 ```json
+//example
 {
 	"name": "nodedrawing",
 	"version": "0.1.0",
