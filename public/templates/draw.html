@@ -1,0 +1,49 @@
+<nav class="hide-on-large-only show-on-small nav-bar">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">{{title}}</a>
+      <a href="#" class="button-collapse show-on-small hide-on-large-only" data-activates="slide-out" data-sidenav="left" data-menuwidth="300" data-closeonclick="false">
+        <i class="material-icons">menu</i>
+      </a>
+
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">Javascript</a></li>
+        <li><a href="mobile.html">Mobile</a></li>
+      </ul>
+    </div>
+  </nav>
+<ul id="slide-out" class="side-nav fixed">
+  <li><div><h5 class="center-align"> {{title}} </h5></div></li>
+  <li><div class="divider"></div></li>
+  <li><a class="dropdown-button waves-teal" href='javascript:void(0);' data-activates="demoDropdown" dropdown data-hover="false">Thickness <i class="material-icons">radio_button_checked</i></a></li>
+  <li><a class="waves-teal btn red" id='dlCanvas' href='javascript:void(0);'>Export Draw <i class="material-icons">save</i></a>
+    <ul id='demoDropdown' class='dropdown-content'>
+        <li><a href="javascript:void(0);" data-thick='1'> Thick 1<i class="material-icons right" style='font-size:4px'>lens</i>
+        </a></li>
+        <li><a href="javascript:void(0);" data-thick='2'>Thick 2<i class="material-icons right" style='font-size:6px'>lens</i></a></li>
+        <li><a href="javascript:void(0);" data-thick='3'>Thick 3<i class="material-icons right" style='font-size:7px'>lens</i></a></li>
+    </ul>
+  </li> 
+</ul>
+    
+<div class="canvas">
+  <div id='cursors' class='cursors'></div>  
+  <canvas id='canvas'>
+    Your browser doesn't support canvas, please update it
+  </canvas>
+</div>
+
+<div class='fixed-action-btn horizontal'>
+  <a class='btn-floating btn-large red'>
+    <i class='large material-icons'>mode_edit</i>
+  </a>
+  <ul id='color-ul'>
+    <li><a class='btn-floating red' id='activate-color' data-color='red'></a></li>
+    <li><a class='btn-floating yellow darken-1' id='activate-color' data-color='yellow'></a></li>
+    <li><a class='btn-floating green' id='activate-color' data-color='green'></a></li>
+    <li><a class='btn-floating blue' id='activate-color' data-color='blue'></a></li>
+    <li><a class='btn-floating black' id='activate-color' data-color='black'></a></li>
+  </ul>
+</div>
+<script src='js/draw.js' async='async'></script>

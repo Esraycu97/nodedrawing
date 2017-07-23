@@ -1,0 +1,55 @@
+*{
+	margin:0;
+	padding:0;
+}
+
+html{		
+	background: #fff;
+	/* This will hide the extra canvas if the screen is small */
+	overflow:hidden;
+}
+ main .canvas {
+      padding-left: 300px;
+    }
+
+    @media only screen and (max-width : 992px) {
+      main .canvas {
+        padding-left: 0;
+      }
+      button-collapse {
+      	display: none;
+      }
+    }
+
+body{
+	font:14px/1.3 'Segoe UI',Arial, sans-serif;
+	color:#444;
+}
+
+canvas {
+	position: fixed;
+	cursor: default;
+	background: url('../img/bg.png')!important;
+}
+
+.cursors{
+	position:relative;
+	z-index: 999;
+}
+
+.cursors .cursor{
+	position:absolute;
+	width:15px;
+	height:22px;
+	background:url('../img/pointer.png') no-repeat -4px 0;
+}
+
+.btn.btn-fb {
+	background-color: #4090db;
+	font-size: 18px;
+}
+
+.username-cursor {
+	position: fixed;
+	padding-left: 12px;
+}
