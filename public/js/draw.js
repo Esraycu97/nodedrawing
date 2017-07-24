@@ -126,8 +126,7 @@ $(function(){
             username : name
         });
 
-        // Draw a line for the current user's movement, as it is
-        // not received in the socket.on('moving') event above
+        // Draw a line not received in the socket.on('drawing') event above
 
         if(mouse.draw){
             draw(mouse.pos_prev.x, mouse.pos_prev.y, touch.clientX - sideSize.width, touch.clientY - sideSize.height,color,thickness);
@@ -142,7 +141,6 @@ $(function(){
 
     // Remove inactive users after 10sec
     setInterval(function(){
-
         for(afk in users){
             if($.now() - users[afk].now > afk_time){
                 // remove a user from app 10sec default
@@ -151,17 +149,14 @@ $(function(){
                 delete cursors[afk];
             }
         }
-
     },afk_time);
 
+      $('#dlCanvas').on('click',downloadCanvas);
     function downloadCanvas() {
         var downTo = canvas[0].toDataURL('image/png;base64;');
-
         // force to download 
         downTo = downTo.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
-        
         name_img = prompt("Give a name to your image","");
-
         if(name_img.length > 0){
             this.setAttribute("download", name_img+'.jpeg');
             this.href = downTo;
@@ -169,37 +164,25 @@ $(function(){
             return false;
         }
     };
-
-    $('#dlCanvas').on('click',downloadCanvas);
-
+    
     socket.on('drawing', function (data) {
-
         if(! (data.id in users)){
-            // a new user has come online. create a cursor for them
+            // a new user has come online, create a cursor for them
             cursors[data.id] = $('<div class="cursor">').appendTo('#cursors').append('<div class="username-cursor">'+data.username);
         }
-
-        // Move the mouse pointer the -3 is a bug 
         cursors[data.id].css({
             'left' : data.pos.x*width,
             'top' : data.pos.y*height
         });
-
         // Is the user drawing?
         if(data.draw && users[data.id]){
-
-            // Draw a line on the canvas. users[data.id] holds
-            // the previous position of this user's mouse pointer
-
             draw(users[data.id].pos.x*width, users[data.id].pos.y*height, data.pos.x*width, data.pos.y*height,data.color,data.thickness);
         }
-
-        // Saving the current client state
+        // Saving the current user 
         users[data.id] = data;
         users[data.id].now = $.now()
 
     });
-
-    
+ 
 });
 
