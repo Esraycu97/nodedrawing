@@ -148,7 +148,7 @@ $(function(){
         }
     },afk_time);
 
-      $('#dlCanvas').on('click',downloadCanvas);
+    $('#dlCanvas').on('click',downloadCanvas);
     function downloadCanvas() {
         var downTo = canvas[0].toDataURL('image/png;base64;');
         // force to download 
