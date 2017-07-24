@@ -29,7 +29,6 @@ body{
 canvas {
 	position: fixed;
 	cursor: default;
-	background: url('../img/bg.png')!important;
 }
 
 .cursors{

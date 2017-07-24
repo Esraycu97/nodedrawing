@@ -94,9 +94,6 @@ $(function(){
             username : name
         });
 
-        // Draw a line for the current user's movement, as it is
-        // not received in the socket.on('moving') event above
-
         if(mouse.draw){
             draw(mouse.pos_prev.x, mouse.pos_prev.y, e.clientX - sideSize.width, e.clientY - sideSize.height,color,thickness);
             mouse.pos_prev.x = e.clientX - sideSize.width;
